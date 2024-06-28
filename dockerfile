@@ -14,6 +14,3 @@ EXPOSE 80
 
 # Start NGINX in the foreground
 CMD ["nginx", "-g", "daemon off;"]
-
-docker build -t temperature-converter .
-docker run -p 8080:80 temperature-converter
