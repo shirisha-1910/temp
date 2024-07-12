@@ -1,8 +1,11 @@
 version: 0.0
 os: linux
+files:
+  - source: /
+    destination: /var/www/html
 
 hooks:
   AfterInstall:
-    - location: scripts/deploy_docker_image.sh
+    - location: deploy_docker_image.sh
       timeout: 300
       runas: root
