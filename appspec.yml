@@ -9,3 +9,7 @@ hooks:
     - location: deploy_docker_image.sh
       timeout: 300
       runas: root
+
+# Update with your repository and commit details
+repository: https://github.com/shirisha-1910/temp.git
+commitId: f54b1f767d7f3285fc0b535712546b3c29371b30
