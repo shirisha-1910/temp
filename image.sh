@@ -8,4 +8,4 @@ docker stop new-temp || true
 docker rm new-temp || true
 
 # Run a new container with the updated image
-docker run -d --name new-temp-container -p 8080:80 sirishassss/new-temp:latest
+docker run -d --name new-temp -p 8080:80 sirishassss/new-temp:latest
