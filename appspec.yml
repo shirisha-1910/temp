@@ -6,7 +6,7 @@ files:
 
 hooks:
   AfterInstall:
-    - location: deploy_docker_image.sh
+    - location: image.sh
       timeout: 300
       runas: root
 
