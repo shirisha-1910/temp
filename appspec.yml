@@ -3,10 +3,14 @@ os: linux
 files:
   - source: /
     destination: /var/www/html
+BeforeInstall:
+  - location: scripts/deploy
+    timeout: 300
+    runas: root
 
-hooks:
-  AfterInstall:
-    - location:  deploy_docker_image.sh
-      timeout: 300
-      runas: root
+# hooks:
+#   AfterInstall:
+#     - location:  deploy_docker_image.sh
+#       timeout: 300
+#       runas: root
 
