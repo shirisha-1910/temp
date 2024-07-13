@@ -1,5 +1,6 @@
 #!/bin/bash
-
+present=$(pwd)
+echo location=$present
 # Pull the latest Docker image from Docker Hub
 docker pull sirishassss/new-temp:latest
 
