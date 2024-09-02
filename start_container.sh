@@ -20,28 +20,11 @@ if ! aws ecr get-login-password --region ap-south-1 | sudo docker login --userna
   exit 1
 fi
 
-# Check if port is in use
-if sudo lsof -i :$PORT > /dev/null; then
-  echo "Port $PORT is in use. Stopping existing container..."
-
-  # Get the container ID running the image
-  CONTAINER_ID=$(sudo docker ps -q --filter "ancestor=$IMAGE_NAME")
-
-  # Check if a container ID was found
-  if [ -z "$CONTAINER_ID" ]; then
-    echo "No running container found for image $IMAGE_NAME."
-  else
-    echo "Stopping container with ID $CONTAINER_ID..."
-    if ! sudo docker stop "$CONTAINER_ID"; then
-      echo "Failed to stop container."
-      exit 1
-    fi
-    if ! sudo docker rm "$CONTAINER_ID"; then
-      echo "Failed to remove container."
-      exit 1
-    fi
-    echo "Stopped and removed existing container."
-  fi
-else
-  echo "Port $PORT is not in use."
+# Start the Docker container
+echo "Starting Docker container..."
+if ! sudo docker run -d -p $PORT:8000 --name my_container $IMAGE_NAME; then
+  echo "Failed to start Docker container."
+  exit 1
 fi
+
+echo "Docker container started successfully."

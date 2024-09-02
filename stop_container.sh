@@ -7,9 +7,18 @@ IMAGE_TAG="latest"  # Specify the image tag you want to use
 IMAGE_NAME="$ECR_REPO_URI:$IMAGE_TAG"
 PORT=8000
 
+# Check if AWS CLI is installed
+if ! command -v aws &> /dev/null; then
+  echo "AWS CLI could not be found. Please install AWS CLI."
+  exit 1
+fi
+
 # Authenticate Docker to your AWS ECR registry
 echo "Authenticating Docker to AWS ECR..."
-aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin $ECR_REPO_URI
+if ! aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin $ECR_REPO_URI; then
+  echo "Failed to authenticate Docker to AWS ECR."
+  exit 1
+fi
 
 # Check if port is in use
 if sudo lsof -i :$PORT > /dev/null; then
@@ -23,11 +32,16 @@ if sudo lsof -i :$PORT > /dev/null; then
     echo "No running container found for image $IMAGE_NAME."
   else
     echo "Stopping container with ID $CONTAINER_ID..."
-    sudo docker stop "$CONTAINER_ID"
-    sudo docker rm "$CONTAINER_ID"
+    if ! sudo docker stop "$CONTAINER_ID"; then
+      echo "Failed to stop container."
+      exit 1
+    fi
+    if ! sudo docker rm "$CONTAINER_ID"; then
+      echo "Failed to remove container."
+      exit 1
+    fi
+    echo "Stopped and removed existing container."
   fi
-
-  echo "Stopped existing container."
 else
   echo "Port $PORT is not in use."
 fi
