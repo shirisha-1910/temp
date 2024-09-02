@@ -15,7 +15,7 @@ fi
 
 # Authenticate Docker to your AWS ECR registry
 echo "Authenticating Docker to AWS ECR..."
-if ! aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin $ECR_REPO_URI; then
+if ! aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $ECR_REPO_URI; then
   echo "Failed to authenticate Docker to AWS ECR."
   exit 1
 fi
