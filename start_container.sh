@@ -1,13 +1,29 @@
 #!/bin/bash
 set -e
 
-# Install AWS CLI if not already installed
-if ! command -v aws &> /dev/null; then
-    echo "AWS CLI not found, installing..."sudo apt-get update
-    sudo apt-get update
-    sudo apt-get install -y awscli  # For Amazon Linux, RHEL, CentOS
-    # For other distros, adjust the installation command accordingly
-fi
+# Update package lists
+echo "Updating package lists..."
+sudo apt-get update
+
+# Install required packages
+echo "Installing required packages..."
+sudo apt-get install -y unzip curl
+
+# Download the AWS CLI version 2 package
+echo "Downloading AWS CLI version 2..."
+curl "https://d1uj6qtbmh3dt5.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+# Unzip the package
+echo "Unzipping AWS CLI version 2 package..."
+unzip awscliv2.zip
+
+# Install AWS CLI version 2
+echo "Installing AWS CLI version 2..."
+sudo ./aws/install
+
+# Verify installation
+echo "Verifying AWS CLI installation..."
+aws --version
 
 # Set the region and repository URL
 REGION="ap-south-1"
