@@ -3,8 +3,9 @@ set -e
 
 # Install AWS CLI if not already installed
 if ! command -v aws &> /dev/null; then
-    echo "AWS CLI not found, installing..."
-    sudo yum install -y aws-cli  # For Amazon Linux, RHEL, CentOS
+    echo "AWS CLI not found, installing..."sudo apt-get update
+    sudo apt-get update
+    sudo apt-get install -y aws-cli  # For Amazon Linux, RHEL, CentOS
     # For other distros, adjust the installation command accordingly
 fi
 
