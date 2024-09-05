@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Retrieving ECR login password..."
+      - aws ecr get-login-password --region ap-south-1
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 905418202800.dkr.ecr.ap-south-1.amazonaws.com
+
+  pre_build:
+    commands:
+      - echo "Starting Docker build..."
+      - docker build -t temp-conv:latest .
+      - echo "Docker image built"
+
+  build:
+    commands:
+      - echo "Tagging Docker image..."
+      - docker tag temp-conv:latest 905418202800.dkr.ecr.ap-south-1.amazonaws.com/temp:latest
+      - echo "Docker image tagged"
+
+  post_build:
+    commands:
+      - echo "Pushing Docker image to Amazon ECR..."
+      - docker push 905418202800.dkr.ecr.ap-south-1.amazonaws.com/temp:latest
+      - echo "Docker image pushed"
+
+artifacts:
+  files:
+    - '**/*'
